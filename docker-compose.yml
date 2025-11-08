@@ -1,0 +1,94 @@
+services:
+  # WestA&D Landing Page with Next.js standalone
+  html-playground-v2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${NEXT_PUBLIC_RECAPTCHA_SITE_KEY:-}
+        - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY:-}
+        - GOOGLE_PLACES_PLACE_ID=${GOOGLE_PLACES_PLACE_ID:-}
+        - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME:-}
+        - CLOUDINARY_UPLOAD_PRESET=${CLOUDINARY_UPLOAD_PRESET:-}
+        - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY:-}
+        - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET:-}
+        - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY:-}
+    container_name: html-playground-v2
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - NEXTAUTH_URL=https://html-playground-v2.paulballestra.com
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - DATABASE_URL=postgresql://postgres:postgres-password@db:5432/htmlplayground
+      - AUTH_SECRET=${AUTH_SECRET:-}
+      - LIVEBLOCKS_SECRET_KEY=${LIVEBLOCKS_SECRET_KEY:-}
+      - NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY=${NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY:-}
+      - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID:-}
+      - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET:-}
+    depends_on:
+      - db
+    networks:
+      - traefik
+      - html-playground-v2
+    labels:
+      # Enable Traefik with HTTP/2
+      - traefik.enable=true
+
+      # HTTP Router with HTTP/2 support
+      - traefik.http.routers.html-playground-v2.rule=Host(`html-playground-v2.paulballestra.com`)
+      - traefik.http.routers.html-playground-v2.entrypoints=websecure
+      - traefik.http.routers.html-playground-v2.tls=true
+      - traefik.http.routers.html-playground-v2.tls.certresolver=letsencrypt
+      - "traefik.http.routers.html-playground-v2.tls.domains[0].main=paulballestra.com"
+      - "traefik.http.routers.html-playground-v2.tls.domains[0].sans=*.paulballestra.com"
+      # Service configuration for Next.js
+      - traefik.http.services.html-playground-v2.loadbalancer.server.port=3000
+      - traefik.http.services.html-playground-v2.loadbalancer.server.scheme=http
+      - traefik.http.services.html-playground-v2.loadbalancer.sticky.cookie.name=server
+      - traefik.http.services.html-playground-v2.loadbalancer.healthcheck.path=/
+      - traefik.http.services.html-playground-v2.loadbalancer.healthcheck.interval=30s
+
+      # Enhanced middleware chain
+      - traefik.http.routers.html-playground-v2.middlewares=security-headers,compression,rate-limit
+
+      # Enhanced security headers middleware
+      - traefik.http.middlewares.security-headers.headers.frameDeny=true
+      - traefik.http.middlewares.security-headers.headers.browserXssFilter=true
+      - traefik.http.middlewares.security-headers.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.security-headers.headers.forceSTSHeader=true
+      - traefik.http.middlewares.security-headers.headers.stsSeconds=31536000
+      - traefik.http.middlewares.security-headers.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.security-headers.headers.stsPreload=true
+      - traefik.http.middlewares.security-headers.headers.customRequestHeaders.X-Forwarded-Proto=https
+      - traefik.http.middlewares.security-headers.headers.customResponseHeaders.X-Robots-Tag=index,follow
+      - traefik.http.middlewares.security-headers.headers.customResponseHeaders.X-Powered-By=""
+
+      # Advanced compression middleware
+      - traefik.http.middlewares.compression.compress=true
+      - traefik.http.middlewares.compression.compress.excludedContentTypes=image/png,image/jpeg,image/gif,image/webp
+
+  db:
+    image: postgres:17
+    container_name: html-playground-v2-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres-password
+      - POSTGRES_DB=htmlplayground
+    networks:
+      - html-playground-v2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  html-playground-v2:
+    driver: bridge
+  traefik:
+    external: true
