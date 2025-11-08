@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        - NEXTAUTH_URL=${NEXTAUTH_URL:-}
         - AUTH_SECRET=${AUTH_SECRET:-}
         - LIVEBLOCKS_SECRET_KEY=${LIVEBLOCKS_SECRET_KEY:-}
         - NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY=${NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY:-}
