@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
       args:
         - DATABASE_URL=postgresql://postgres:postgres-password@db:5432/htmlplayground
-        - NEXTAUTH_URL=${NEXTAUTH_URL:-}
+        - AUTH_URL=${AUTH_URL:-}
         - AUTH_SECRET=${AUTH_SECRET:-}
         - LIVEBLOCKS_SECRET_KEY=${LIVEBLOCKS_SECRET_KEY:-}
         - NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY=${NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY:-}
@@ -18,7 +18,7 @@ services:
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://html-playground-v2.paulballestra.com
-      - NEXTAUTH_URL=https://html-playground-v2.paulballestra.com
+      - AUTH_URL=https://html-playground-v2.paulballestra.com
       - PORT=3000
       - HOSTNAME=0.0.0.0
       - DATABASE_URL=postgresql://postgres:postgres-password@db:5432/htmlplayground

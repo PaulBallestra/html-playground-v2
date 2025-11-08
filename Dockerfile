@@ -23,7 +23,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # Set environment variables for build
 ENV NODE_ENV=production
 # Pass through environment variables needed for build
-ARG NEXTAUTH_URL
+ARG AUTH_URL
 ARG DATABASE_URL
 ARG AUTH_SECRET
 ARG LIVEBLOCKS_SECRET_KEY
