@@ -1,5 +1,4 @@
 services:
-  # WestA&D Landing Page with Next.js standalone
   html-playground-v2:
     build:
       context: .
