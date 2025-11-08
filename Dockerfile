@@ -66,10 +66,10 @@ COPY start.sh ./start.sh
 RUN chmod +x ./start.sh
 
 # Expose port (configurable for different environments)
-EXPOSE 80
+EXPOSE 3000
 
 # Set default port
-ENV PORT=80
+ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Health check

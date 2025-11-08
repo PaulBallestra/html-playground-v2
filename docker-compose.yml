@@ -19,7 +19,7 @@ services:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://html-playground-v2.paulballestra.com
       - AUTH_URL=https://html-playground-v2.paulballestra.com
-      - PORT=80
+      - PORT=3000
       - HOSTNAME=0.0.0.0
       - DATABASE_URL=postgresql://postgres:postgres-password@db:5432/htmlplayground
       - AUTH_SECRET=${AUTH_SECRET:-}
@@ -44,7 +44,7 @@ services:
       - "traefik.http.routers.html-playground-v2.tls.domains[0].main=paulballestra.com"
       - "traefik.http.routers.html-playground-v2.tls.domains[0].sans=*.paulballestra.com"
       # Service configuration for Next.js
-      - traefik.http.services.html-playground-v2.loadbalancer.server.port=80
+      - traefik.http.services.html-playground-v2.loadbalancer.server.port=3000
       - traefik.http.services.html-playground-v2.loadbalancer.server.scheme=http
       - traefik.http.services.html-playground-v2.loadbalancer.sticky.cookie.name=server
       - traefik.http.services.html-playground-v2.loadbalancer.healthcheck.path=/
