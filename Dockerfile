@@ -32,8 +32,8 @@ ARG AUTH_GOOGLE_ID
 ARG AUTH_GOOGLE_SECRET
 
 # Generate Prisma client before building
-# RUN pnpm run db:generate
-CMD pnpx prisma generate && pnpm start
+RUN pnpm run db:generate
+# CMD pnpx prisma generate && pnpm start
 
 
 # Build Next.js application
