@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        - DATABASE_URL=postgresql://postgres:postgres-password@db:5432/htmlplayground
         - NEXTAUTH_URL=${NEXTAUTH_URL:-}
         - AUTH_SECRET=${AUTH_SECRET:-}
         - LIVEBLOCKS_SECRET_KEY=${LIVEBLOCKS_SECRET_KEY:-}

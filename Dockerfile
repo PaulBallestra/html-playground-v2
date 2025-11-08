@@ -24,6 +24,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 ENV NODE_ENV=production
 # Pass through environment variables needed for build
 ARG NEXTAUTH_URL
+ARG DATABASE_URL
 ARG AUTH_SECRET
 ARG LIVEBLOCKS_SECRET_KEY
 ARG NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY
@@ -31,7 +32,9 @@ ARG AUTH_GOOGLE_ID
 ARG AUTH_GOOGLE_SECRET
 
 # Generate Prisma client before building
-RUN pnpm run db:generate
+# RUN pnpm run db:generate
+CMD pnpx prisma generate && pnpm start
+
 
 # Build Next.js application
 RUN pnpm run build
