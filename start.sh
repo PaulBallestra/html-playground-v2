@@ -3,12 +3,6 @@
 # Set environment variables
 export DATABASE_URL=${DATABASE_URL:-}
 export NODE_ENV="production"
-# export AUTH_URL=${AUTH_URL:-}
-# export AUTH_SECRET=${AUTH_SECRET:-}
-# export LIVEBLOCKS_SECRET_KEY=${LIVEBLOCKS_SECRET_KEY:-}
-# export NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY=${NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY:-}
-# export AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID:-}
-# export AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET:-}
 
 # Debug: Log environment variables (without exposing sensitive data)
 echo "Environment Debug:"

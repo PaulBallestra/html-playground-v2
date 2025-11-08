@@ -66,10 +66,10 @@ COPY start.sh ./start.sh
 RUN chmod +x ./start.sh
 
 # Expose port (configurable for different environments)
-EXPOSE 3000
+EXPOSE 80
 
-# Set default port for both Heroku and VM
-ENV PORT=3000
+# Set default port
+ENV PORT=80
 ENV HOSTNAME="0.0.0.0"
 
 # Health check
