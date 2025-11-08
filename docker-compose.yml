@@ -17,6 +17,7 @@ services:
       - .env
     environment:
       - NODE_ENV=production
+      - NEXT_PUBLIC_SITE_URL=https://html-playground-v2.paulballestra.com
       - NEXTAUTH_URL=https://html-playground-v2.paulballestra.com
       - PORT=3000
       - HOSTNAME=0.0.0.0
