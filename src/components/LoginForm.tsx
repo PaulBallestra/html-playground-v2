@@ -10,7 +10,6 @@ const LoginForm = () => {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    console.log('click')
     try {
       await signIn('google', { callbackUrl: '/' });
     } catch (error) {

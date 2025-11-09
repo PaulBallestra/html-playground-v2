@@ -48,7 +48,6 @@ export function CollaborativeApp() {
 
   const updateLeftPageEditorSelected = useMutation(({ storage }, pageLeftLabel: string) => {
     const leftCode = storage.get("leftCode");
-    console.log('click left', pageLeftLabel)
     leftCode.set('pageSelected', pageLeftLabel);
   }, []);
 
