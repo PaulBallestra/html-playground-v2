@@ -1,5 +1,3 @@
-import React from "react";
-
 type Props = {
     color: string;
     x: number;
@@ -10,6 +8,7 @@ export default function Cursor({ color, x, y }: Props) {
     return (
         <svg
             style={{
+                zIndex: 9999,
                 position: "absolute",
                 left: 0,
                 top: 0,

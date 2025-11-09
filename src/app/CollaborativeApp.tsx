@@ -2,7 +2,7 @@
 
 import CodeEditor from "@/components/CodeEditor";
 import CodeEditorPageButton from "@/components/CodeEditorPageButton";
-import Preview from "@/components/CodeEditorPreview";
+import CodeEditorIframe from "@/components/CodeEditorIframe";
 import Cursor from "@/components/Cursor";
 import { COLORS, PAGES } from "@/constants/collaborative-code-editor";
 import { useMutation, useMyPresence, useOthers, useStorage } from "@liveblocks/react/suspense";
@@ -56,30 +56,36 @@ export function CollaborativeApp() {
     rightCode.set('pageSelected', pageRightLabel);
   }, []);
 
+  const onPointerMove = (event: React.PointerEvent) => {
+    updateMyPresence({
+      cursor: {
+        x: Math.round(event.clientX),
+        y: Math.round(event.clientY),
+      }
+    })
+  }
+
+  const onPointerLeave = () => {
+    updateMyPresence({
+      cursor: null,
+    })
+  }
+
   return (
     <main
       className="flex flex-row w-screen h-screen text-white"
-      onPointerMove={(event) => {
-        // Update the user cursor position on every pointer move
-        updateMyPresence({
-          cursor: {
-            x: Math.round(event.clientX),
-            y: Math.round(event.clientY),
-          },
-        });
-      }}
-      onPointerLeave={() =>
-        // When the pointer goes out, set cursor to null
-        updateMyPresence({
-          cursor: null,
-        })
-      }
+      onPointerMove={(event) => { onPointerMove(event) }}
+      onPointerLeave={onPointerLeave}
     >
       {/* LEFT SECTION */}
       <section className="w-full flex flex-col">
         <div className="h-full">
           {/* iframe */}
-          <Preview htmlCode={leftCodeStorage.html} cssCode={leftCodeStorage.css} javascriptCode={leftCodeStorage.javascript} />
+          <CodeEditorIframe
+            htmlCode={leftCodeStorage.html}
+            cssCode={leftCodeStorage.css}
+            javascriptCode={leftCodeStorage.javascript}
+          />
         </div>
         <div className="h-full border-t-1">
           <div className="flex flex-row w-fit">
@@ -97,7 +103,11 @@ export function CollaborativeApp() {
       {/* RIGHT SECTION */}
       <section className="w-full flex flex-col border-l-1">
         <div className="h-full">
-          <Preview htmlCode={rightCodeStorage.html} cssCode={rightCodeStorage.css} javascriptCode={rightCodeStorage.javascript} />
+          <CodeEditorIframe 
+            htmlCode={rightCodeStorage.html} 
+            cssCode={rightCodeStorage.css} 
+            javascriptCode={rightCodeStorage.javascript}
+          />
         </div>
         <div className="relative h-full border-t-1">
           <div className="flex flex-row">
