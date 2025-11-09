@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   env: {
+    SITE_URL: process.env.SITE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     AUTH_URL: process.env.AUTH_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,

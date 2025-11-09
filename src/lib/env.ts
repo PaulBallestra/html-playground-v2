@@ -1,7 +1,7 @@
 // Helper function to get the site URL with better fallback logic
 export const getSiteUrl = (): string => {
   // First try environment variable
-  const envSiteUrl = process.env.AUTH_URL;
+  const envSiteUrl = process.env.SITE_URL;
   if (envSiteUrl) return envSiteUrl;
   
   // In production, try to construct from request headers or use a reasonable default
@@ -15,8 +15,9 @@ export const getSiteUrl = (): string => {
   return 'http://localhost:3000';
 };
 
+export const SITE_URL = getSiteUrl();
 export const DATABASE_URL = process.env.DATABASE_URL || '';
-export const AUTH_URL = getSiteUrl();
+export const AUTH_URL = process.env.AUTH_URL || '';
 export const AUTH_SECRET = process.env.AUTH_SECRET || '';
 export const LIVEBLOCKS_SECRET_KEY = process.env.LIVEBLOCKS_SECRET_KEY || '';
 export const NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY = process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY || '';
