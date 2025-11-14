@@ -78,13 +78,14 @@ export function CollaborativeApp() {
       onPointerLeave={onPointerLeave}
     >
       {/* LEFT SECTION */}
-      <section className="w-full flex flex-col">
+      <section className="min-w-[50vw] flex flex-col">
         <div className="h-full">
           {/* iframe */}
           <CodeEditorIframe
             htmlCode={leftCodeStorage.html}
             cssCode={leftCodeStorage.css}
             javascriptCode={leftCodeStorage.javascript}
+            offsetX={0} 
           />
         </div>
         <div className="h-full border-t-1 border-white/10">
@@ -101,12 +102,13 @@ export function CollaborativeApp() {
         </div>
       </section>
       {/* RIGHT SECTION */}
-      <section className="w-full flex flex-col border-l-1 border-white/10">
+      <section className="min-w-[50vw] flex flex-col border-l-1 border-white/10">
         <div className="h-full">
-          <CodeEditorIframe 
-            htmlCode={rightCodeStorage.html} 
-            cssCode={rightCodeStorage.css} 
+          <CodeEditorIframe
+            htmlCode={rightCodeStorage.html}
+            cssCode={rightCodeStorage.css}
             javascriptCode={rightCodeStorage.javascript}
+            offsetX={window.innerWidth / 2} 
           />
         </div>
         <div className="relative h-full border-t-1 border-white/10 ">

@@ -3,7 +3,7 @@
 import { useMyPresence } from "@liveblocks/react";
 import { useEffect, useRef } from "react";
 
-function CodeEditorIframe({ htmlCode, cssCode, javascriptCode }: { htmlCode: string, cssCode: string, javascriptCode: string }) {
+function CodeEditorIframe({ htmlCode, cssCode, javascriptCode, offsetX }: { htmlCode: string, cssCode: string, javascriptCode: string, offsetX: number }) {
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const [{ }, updateMyPresence] = useMyPresence();
 
@@ -30,11 +30,15 @@ function CodeEditorIframe({ htmlCode, cssCode, javascriptCode }: { htmlCode: str
                 <body>
                     ${htmlCode}
                     <script>
+                        const offsetX = ${offsetX};
                         window.addEventListener("pointermove", (e) => {
                             parent.postMessage(
                                 {
                                     type: "cursor-move",
-                                    cursor: { x: e.clientX, y: e.clientY }
+                                    cursor: { 
+                                        x: e.clientX + offsetX,
+                                        y: e.clientY
+                                    }
                                 },
                                 "*"
                             );
@@ -53,10 +57,10 @@ function CodeEditorIframe({ htmlCode, cssCode, javascriptCode }: { htmlCode: str
     }, [htmlCode, javascriptCode, cssCode]);
 
     return (
-        <div className="relative w-full h-full">
+        <div className="relative">
             <iframe
                 ref={iframeRef}
-                className="w-full h-full border-none"
+                className="border-none"
                 sandbox="allow-scripts"
                 allow="fullscreen"
                 allowFullScreen
