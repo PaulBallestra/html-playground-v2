@@ -9,7 +9,6 @@ import { useMutation, useMyPresence, useOthers, useStorage } from "@liveblocks/r
 
 export function CollaborativeApp() {
   const others = useOthers();
-  // const userCount = others.length;
 
   const [{ }, updateMyPresence] = useMyPresence();
 
@@ -85,11 +84,11 @@ export function CollaborativeApp() {
             htmlCode={leftCodeStorage.html}
             cssCode={leftCodeStorage.css}
             javascriptCode={leftCodeStorage.javascript}
-            offsetX={0} 
+            offsetX={0}
           />
         </div>
-        <div className="h-full border-t-1 border-white/10">
-          <div className="flex flex-row bg-gray-900">
+        <div className="h-full border-t-1 border-white/20">
+          <div className="flex flex-row bg-[#1E1E1E] border-b-1 border-white/20">
             {
               PAGES.map((page, key) => {
                 return <CodeEditorPageButton key={key} onClick={() => updateLeftPageEditorSelected(page.label)} label={page.label} isActive={leftCodeStorage.pageSelected === page.label} />
@@ -102,17 +101,17 @@ export function CollaborativeApp() {
         </div>
       </section>
       {/* RIGHT SECTION */}
-      <section className="min-w-[50vw] flex flex-col border-l-1 border-white/10">
+      <section className="min-w-[50vw] flex flex-col border-l-1 border-white/20">
         <div className="h-full">
           <CodeEditorIframe
             htmlCode={rightCodeStorage.html}
             cssCode={rightCodeStorage.css}
             javascriptCode={rightCodeStorage.javascript}
-            offsetX={window.innerWidth / 2} 
+            offsetX={window.innerWidth}
           />
         </div>
-        <div className="relative h-full border-t-1 border-white/10 ">
-          <div className="flex flex-row bg-gray-900">
+        <div className="relative h-full border-t-1 border-white/20">
+          <div className="flex flex-row bg-[#1E1E1E] border-b-1 border-white/20">
             {
               PAGES.map((page, key) => {
                 return <CodeEditorPageButton key={key} onClick={() => { updateRightPageEditorSelected(page.label) }} label={page.label} isActive={rightCodeStorage.pageSelected === page.label} />
@@ -125,12 +124,8 @@ export function CollaborativeApp() {
         </div>
       </section>
 
-      {
-        // CURSORS PRESENCE
-        others.map(({ connectionId, presence }) => {
-          if (presence.cursor === null) {
-            return null;
-          }
+      {others.map(({ connectionId, presence }) => {
+          if (presence.cursor === null) return null;
 
           return (
             <Cursor
