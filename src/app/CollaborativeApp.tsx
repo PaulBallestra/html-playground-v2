@@ -87,8 +87,8 @@ export function CollaborativeApp() {
             javascriptCode={leftCodeStorage.javascript}
           />
         </div>
-        <div className="h-full border-t-1">
-          <div className="flex flex-row w-fit">
+        <div className="h-full border-t-1 border-white/10">
+          <div className="flex flex-row bg-gray-900">
             {
               PAGES.map((page, key) => {
                 return <CodeEditorPageButton key={key} onClick={() => updateLeftPageEditorSelected(page.label)} label={page.label} isActive={leftCodeStorage.pageSelected === page.label} />
@@ -101,7 +101,7 @@ export function CollaborativeApp() {
         </div>
       </section>
       {/* RIGHT SECTION */}
-      <section className="w-full flex flex-col border-l-1">
+      <section className="w-full flex flex-col border-l-1 border-white/10">
         <div className="h-full">
           <CodeEditorIframe 
             htmlCode={rightCodeStorage.html} 
@@ -109,8 +109,8 @@ export function CollaborativeApp() {
             javascriptCode={rightCodeStorage.javascript}
           />
         </div>
-        <div className="relative h-full border-t-1">
-          <div className="flex flex-row">
+        <div className="relative h-full border-t-1 border-white/10 ">
+          <div className="flex flex-row bg-gray-900">
             {
               PAGES.map((page, key) => {
                 return <CodeEditorPageButton key={key} onClick={() => { updateRightPageEditorSelected(page.label) }} label={page.label} isActive={rightCodeStorage.pageSelected === page.label} />
@@ -133,8 +133,6 @@ export function CollaborativeApp() {
           return (
             <Cursor
               key={`cursor-${connectionId}`}
-              // connectionId is an integer that is incremented at every new connections
-              // Assigning a color with a modulo makes sure that a specific user has the same colors on every clients
               color={COLORS[connectionId % COLORS.length]}
               x={presence.cursor.x}
               y={presence.cursor.y}
