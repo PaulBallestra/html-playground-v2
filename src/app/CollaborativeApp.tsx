@@ -10,7 +10,7 @@ import { useMutation, useMyPresence, useOthers, useStorage } from "@liveblocks/r
 export function CollaborativeApp() {
   const others = useOthers();
 
-  const [{ }, updateMyPresence] = useMyPresence();
+  const [, updateMyPresence] = useMyPresence();
 
   const leftCodeStorage = useStorage((root) => root.leftCode);
   const rightCodeStorage = useStorage((root) => root.rightCode);
@@ -56,10 +56,14 @@ export function CollaborativeApp() {
   }, []);
 
   const onPointerMove = (event: React.PointerEvent) => {
+
+    // console.log('Xpct : ', (event.clientX * 100) / window.innerWidth)
+    // console.log('Ypct : ', (event.clientY * 100) / window.innerHeight)
+
     updateMyPresence({
       cursor: {
-        x: Math.round(event.clientX),
-        y: Math.round(event.clientY),
+        x: (event.clientX * 100) / window.innerWidth,
+        y: (event.clientY * 100) / window.innerHeight,
       }
     })
   }
@@ -84,7 +88,6 @@ export function CollaborativeApp() {
             htmlCode={leftCodeStorage.html}
             cssCode={leftCodeStorage.css}
             javascriptCode={leftCodeStorage.javascript}
-            offsetX={0}
           />
         </div>
         <div className="h-full border-t-1 border-white/20">
@@ -107,7 +110,6 @@ export function CollaborativeApp() {
             htmlCode={rightCodeStorage.html}
             cssCode={rightCodeStorage.css}
             javascriptCode={rightCodeStorage.javascript}
-            offsetX={window.innerWidth}
           />
         </div>
         <div className="relative h-full border-t-1 border-white/20">
@@ -125,17 +127,20 @@ export function CollaborativeApp() {
       </section>
 
       {others.map(({ connectionId, presence }) => {
-          if (presence.cursor === null) return null;
+        if (presence.cursor === null) return null;
 
-          return (
-            <Cursor
-              key={`cursor-${connectionId}`}
-              color={COLORS[connectionId % COLORS.length]}
-              x={presence.cursor.x}
-              y={presence.cursor.y}
-            />
-          );
-        })
+        const x = (presence.cursor.x * window.innerWidth) / 100;
+        const y = (presence.cursor.y * window.innerHeight) / 100;
+
+        return (
+          <Cursor
+            key={`cursor-${connectionId}`}
+            color={COLORS[connectionId % COLORS.length]}
+            x={x}
+            y={y}
+          />
+        );
+      })
       }
     </main>
   );
