@@ -23,10 +23,10 @@ function CodeEditorIframe({ htmlCode, cssCode, javascriptCode }: { htmlCode: str
     }, [htmlCode, javascriptCode, cssCode]);
 
     return (
-        <div className="relative">
+        <div className="h-full">
             <iframe
                 ref={iframeRef}
-                className="border-none"
+                className="border-none w-full h-full"
                 sandbox="allow-scripts"
                 allow="fullscreen"
                 allowFullScreen
