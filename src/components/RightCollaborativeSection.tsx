@@ -35,6 +35,7 @@ const RightCollaborativeSection = () => {
                 htmlCode={rightCodeStorage ? rightCodeStorage.html : ""}
                 cssCode={rightCodeStorage ? rightCodeStorage.css : ""}
                 javascriptCode={rightCodeStorage ? rightCodeStorage.javascript : ""}
+                offsetX={window.innerWidth/2}
             />
             <div className="relative h-full border-t-1 border-white/20">
                 <div className="flex flex-row bg-[#1E1E1E] border-b-1 border-white/20">

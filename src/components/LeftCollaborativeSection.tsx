@@ -36,6 +36,7 @@ const LeftCollaborativeSection = () => {
                 htmlCode={leftCodeStorage ? leftCodeStorage.html : ""}
                 cssCode={leftCodeStorage ? leftCodeStorage.css : ""}
                 javascriptCode={leftCodeStorage ? leftCodeStorage.javascript : ""}
+                offsetX={0}
             />
             <div className="h-full border-t-1 border-white/20">
                 <div className="flex flex-row bg-[#1E1E1E] border-b-1 border-white/20">
@@ -45,6 +46,7 @@ const LeftCollaborativeSection = () => {
                         })
                     }
                 </div>
+
                 <CodeEditor className={leftCodeStorage && leftCodeStorage.pageSelected === "index.html" ? "block" : "hidden"} value={leftCodeStorage ? leftCodeStorage.html : ""} language="html" onChange={updateLeftHtmlEditor} defaultValue={"<!-- Some comments -->"} />
                 <CodeEditor className={leftCodeStorage && leftCodeStorage.pageSelected === "style.css" ? "block" : "hidden"} value={leftCodeStorage ? leftCodeStorage.css : ""} language="css" onChange={updateLeftCssEditor} defaultValue="/* Some comments */" />
                 <CodeEditor className={leftCodeStorage && leftCodeStorage.pageSelected === "script.js" ? "block" : "hidden"} value={leftCodeStorage ? leftCodeStorage.javascript : ""} language="javascript" onChange={updateLeftJavascriptEditor} defaultValue="// Some comments" />

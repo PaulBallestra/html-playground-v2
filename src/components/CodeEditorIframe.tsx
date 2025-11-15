@@ -1,9 +1,28 @@
 'use client'
 
+import { useMyPresence } from "@liveblocks/react";
 import { useEffect, useRef } from "react";
 
-function CodeEditorIframe({ htmlCode, cssCode, javascriptCode }: { htmlCode: string, cssCode: string, javascriptCode: string}) {
+function CodeEditorIframe({ htmlCode, cssCode, javascriptCode, offsetX }: { htmlCode: string, cssCode: string, javascriptCode: string, offsetX: number }) {
     const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    const [{ }, updateMyPresence] = useMyPresence();
+
+    useEffect(() => {
+        function handleMessage(event: MessageEvent) {
+            if (event.data?.type === "cursor-move") {
+                updateMyPresence({
+                    cursor: {
+                        x: (event.data.cursor.x * 100) / window.innerWidth,
+                        y: (event.data.cursor.y * 100) / window.innerHeight,
+                    },
+                });
+            }
+        }
+
+        window.addEventListener("message", handleMessage);
+        return () => window.removeEventListener("message", handleMessage);
+    }, []);
 
     useEffect(() => {
         if (iframeRef.current) {
@@ -14,6 +33,25 @@ function CodeEditorIframe({ htmlCode, cssCode, javascriptCode }: { htmlCode: str
                 </style>
                 <body>
                     ${htmlCode}
+                    <script>
+                        const offsetX = ${offsetX};
+                        window.addEventListener("pointermove", (e) => {
+                            parent.postMessage(
+                                {
+                                    type: "cursor-move",
+                                    cursor: { 
+                                        x: e.clientX + offsetX,
+                                        y: e.clientY
+                                    }
+                                },
+                                "*"
+                            );
+                        });
+
+                        window.addEventListener("pointerleave", () => {
+                            parent.postMessage({ type: "cursor-move", cursor: null }, "*");
+                        });
+                    </script>
                     <script>
                         ${javascriptCode}
                     </script>
